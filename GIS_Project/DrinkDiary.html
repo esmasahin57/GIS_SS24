@@ -4,6 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>DrinkDiary</title>
+        <base href="http://127.0.0.1:3000/DrinkDiary.html" />
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <header>
@@ -14,11 +16,27 @@
         </header>
         <hr>
         <main>
-        <h1>DrinkDiary.com</h1>
-        <p>stay hydrated!</p>
+        <h1 class="topic1">DrinkDiary.com</h1>
+        <p class="satz">stay hydrated!</p>
         <hr>
-        <h2>Welcome to DrinkDiary!</h2>
-        <h4>please enter your information below to start</h4>
+        <h2 class="topic2">Welcome to DrinkDiary!</h2>
+        <h4 class="topic4">please enter your information below to start</h4>
+        <style>
+            .topic1 {
+                color: lightskyblue;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+            .satz {
+                color: lightsalmon;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+            .topic2 {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .topic4 {
+                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            }
+        </style>
         <form>
             <div>
                     <label>Choose the size of your bottle</label>
