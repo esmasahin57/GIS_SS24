@@ -4,26 +4,6 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>DrinkDiary</title>
-        <base href="http://127.0.0.1:3000/DrinkDiary.html" />
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <header>
-            <img 
-            src="https://static.vecteezy.com/system/resources/previews/000/353/082/non_2x/vector-water-bottle-icon.jpg"
-            alt="Wasserflasche"
-            title="DrinkDiary"
-            width="50"
-            />
-            
-        </header>
-        <hr>
-        <main>
-        <h1 class="topic1">DrinkDiary.com</h1>
-        <p class="satz">stay hydrated!</p>
-        <hr>
-        <h2 class="topic2">Welcome to DrinkDiary!</h2>
-        <h4 class="topic4">please enter your information below to start</h4>
         <style>
             .topic1 {
                 color: lightskyblue;
@@ -39,7 +19,31 @@
             .topic4 {
                 font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             }
+            h1 {
+              border: 1px solid black;
+              width: fit-content;
+              transition: background-color 1s, padding 2s ease;
+            }
+
+            h1:hover {
+             background-color: lightsalmon;
+             padding: 30px;
+            }
         </style>
+        <base href="http://127.0.0.1:3000/DrinkDiary.html" />
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <header>
+        <h1 class="topic1">DrinkDiary.com</h1>
+        <p class="satz">stay hydrated!</p>
+        <hr>
+        <h2 class="topic2">Welcome to DrinkDiary!</h2>
+        <h4 class="topic4">please enter your information below to start</h4>
+        <br> 
+        </header>
+        <main>
+        
         <form>
             <div>
                     <label>Choose the size of your bottle</label>
@@ -54,11 +58,17 @@
                     <input type="text" />
                     <br>
                     <br>
-                    <label>How much do you drink currently?</label>
-                    <br>
-                    <input type="range" />
+                    <button>OK</button>
             </div>
         </form>
+        <br>
+        <br>
+        <img 
+        src="https://static.vecteezy.com/system/resources/previews/000/353/082/non_2x/vector-water-bottle-icon.jpg"
+        alt="Wasserflasche"
+        title="DrinkDiary"
+        width="150"   
+        />
         </main>
     </body>
 </html>
