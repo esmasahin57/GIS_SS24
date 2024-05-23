@@ -1,74 +1,69 @@
 <!DOCTYPE html>
-<html lang="de">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>DrinkDiary</title>
-        <style>
-            .topic1 {
-                color: lightskyblue;
-                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            }
-            .satz {
-                color: lightsalmon;
-                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            }
-            .topic2 {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-            .topic4 {
-                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            }
-            h1 {
-              width: fit-content;
-              transition: background-color 1s, padding 2s ease;
-            }
-
-            h1:hover {
-             background-color: lightsalmon;
-             padding: 30px;
-            }
-        </style>
-        <base href="http://127.0.0.1:3000/DrinkDiary.html" />
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <header>
-        <h1 class="topic1">DrinkDiary.com</h1>
-        <p class="satz">stay hydrated!</p>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DrinkDiary</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="DrinkDiary.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1 class="topic1" data-translate-key="title">DrinkDiary.com</h1>
+        <p class="satz" data-translate="subtitle">Stay hydrated!</p>
+        <button id="dark-mode-toggle" data-translate-key="darkModeButton">Dark Mode</button>
+        <label for="language-select"></label>
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
         <hr>
-        <h2 class="topic2">Welcome to DrinkDiary!</h2>
-        <h4 class="topic4">please enter your information below to start</h4>
-        <br> 
-        </header>
-        <main>
-        
-        <form>
+        <h2 class="topic2" data-translate="welcome">Welcome to DrinkDiary!</h2>
+        <h4 class="topic4" data-translate="instruction">Please enter your information below to start</h4>
+        <br>
+    </header>
+    <main>
+        <form id="drink-form">
             <div>
-                    <label>Choose the size of your bottle</label>
-                    <br>
-                    <input type="radio" name="size" value="0,75 l /"><label>0,75 l</label>
-                    <input type="radio" name="size" value="1 l" /><label>1 l</label>
-                    <input type="radio" name="size" value="1,5 l" /><label>1,5 l</label>
-                    <br>
-                    <br>
-                    <label>What's your daily Goal?</label>
-                    <br>
-                    <input type="text" />
-                    <br>
-                    <br>
-                    <br>
-                    <button>add water</button>
+                <br>
+                <label for="dailyGoal" data-translate-key="dailyGoalLabel">What's your daily goal? (in l)</label>
+                <br>
+                <input type="number" step="0.1" min="0" id="dailyGoal" name="dailyGoal">
+                <br>
+                <br>
+                <br>
+                <button type="button" data-translate-key="addWaterButton" id="addwaterbutton">Add Water</button>
             </div>
         </form>
         <br>
-        <br>
-        <img 
-        src="https://static.vecteezy.com/system/resources/previews/000/353/082/non_2x/vector-water-bottle-icon.jpg"
-        alt="Wasserflasche"
-        title="DrinkDiary"
-        width="150"   
-        />
-        </main>
-    </body>
+        <div id="progress">
+            <h3 data-translate-key="dailyGoal">Daily Goal: <span id="goal">0</span> l</h3>
+            <h3 data-translate-key="consumed">Consumed: <span id="consumed">0</span> l</h3>
+        </div>
+        <div id="chart-container">
+            <canvas id="consumption-chart"></canvas>
+        </div>
+        <div id="calendar-container">
+            <table id="calendar">
+                <thead>
+                    <tr>
+                        <th data-translate-key="mon">Monday</th>
+                        <th data-translate-key="tue">Tuesday</th>
+                        <th data-translate-key="wed">Wednesday</th>
+                        <th data-translate-key="thu">Thursday</th>
+                        <th data-translate-key="fri">Friday</th>
+                        <th data-translate-key="sat">Saturday</th>
+                        <th data-translate-key="sun">Sunday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Calendar dates will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
 </html>
