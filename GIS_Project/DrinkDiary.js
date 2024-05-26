@@ -4,12 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const consumedElement = document.getElementById('consumed');
     const goalElement = document.getElementById('goal');
     const dailyGoalinput = document.getElementById('dailyGoal');
-    const ctx = document.getElementById('consumption-chart').getContext('2d');
-    const calendarBody = document.querySelector('#calendar tbody');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const languageSelect = document.getElementById('language-select');
     const addwaterbutton = document.getElementById('addwaterbutton')
-   
+    const pastdaysElement = document.getElementById('mon');
 
     let dailyGoal = 0;
     let consumed = 0;
@@ -27,9 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDisplay()
     });
 
+    addwaterbutton.addEventListener("click", (event) => {
+        console.log(pastdays)
+        mon = mon +0.1
+        updateDisplay()
+    });
+
     const updateDisplay = () => {
         goalElement.textContent = dailyGoal;
         consumedElement.textContent = consumed;
+        pastdaysElement.textContent = mon;
     };
 
     const translations = {
@@ -116,65 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTranslations(selectedLanguage);
     });
 
-    const applyTranslations = (language) => {
-        const elements = document.querySelectorAll('[data-translate-key]');
-        elements.forEach(element => {
-            const key = element.getAttribute('data-translate-key');
-            if (translations[language] && translations[language][key]) {
-                element.innerHTML = translations[language][key];
-            }
-        });
-    };
-
-
-    const updateData = () => {
-        const today = new Date();
-        const last7Days = [];
-
-        for (let i = 6; i >= 0; i--) {
-            const date = new Date(today);
-            date.setDate(today.getDate() - i);
-            const dateString = date.toISOString().split('T')[0];
-            const consumption = consumptionData.find(entry => entry.date === dateString)?.amount || 0;
-            last7Days.push({ date: dateString, amount: consumption });
-        }
-
-        consumptionChart.data.labels = last7Days.map(entry => entry.date);
-        consumptionChart.data.datasets[0].data = last7Days.map(entry => entry.amount);
-        consumptionChart.update();
-
-        renderCalendar(last7Days);
-    };
-
-   /* const consumptionChart = new Chart(ctx, { 
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Water Consumption (l)',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true,
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'day'
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    suggestedMax: 2
-                }
-            }
-        }
-    }); */
-
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
     });
@@ -183,31 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.languageSelect('language-select');
     });
 
-    const renderCalendar = (data) => {
-        const today = new Date();
-        const startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-        const endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     
-        calendarBody.innerHTML = '';
-        let date = startDate;
-
-        while (date <= endDate) {
-            const weekRow = document.createElement('tr');
-            for (let i = 0; i < 7; i++) {
-                const dayCell = document.createElement('td');
-                if (date.getMonth() === today.getMonth() && date.getDay() === i) {
-                    dayCell.textContent = date.getDate();
-                    const dateString = date.toISOString().split('T')[0];
-                    const consumption = data.find(entry => entry.date === dateString)?.amount || 0;
-                    if (consumption > 0) {
-                        const consumptionBadge = document.createElement('div');
-                        consumptionBadge.classList.add('water-consumption');
-                        consumptionBadge.textContent = `${consumption} l`;
-                        dayCell.appendChild
-                    }
-                }
-            }
-        }
-    }
-}
-)
+    })
+    
