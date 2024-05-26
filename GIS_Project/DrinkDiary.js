@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const consumedElement = document.getElementById('consumed');
     const goalElement = document.getElementById('goal');
     const dailyGoalinput = document.getElementById('dailyGoal');
+    const ctx = document.getElementById('consumption-chart').getContext('2d');
+    const calendarBody = document.querySelector('#calendar tbody');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const languageSelect = document.getElementById('language-select');
     const addwaterbutton = document.getElementById('addwaterbutton')
@@ -26,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     addwaterbutton.addEventListener("click", (event) => {
-        console.log(pastdays)
+        console.log(mon)
         mon = mon +0.1
         updateDisplay()
     });
@@ -129,6 +131,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.languageSelect('language-select');
     });
 
-    
-    })
-    
+})
+   
