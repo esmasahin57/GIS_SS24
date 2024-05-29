@@ -14,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let dailyGoal = 0;
     let consumed = 0;
     let consumptionData = [];
+    let value = Number(localStorage.getItem('value'))
+    mon.textContent = value;
+    addwaterbutton.addEventListener('click', () => {
+        setValue(value + 0.1);
+    });
+
+    function setValue(x) {
+        value = x;
+        mon.textContent = value;
+        localStorage.setItem('value', value);
+      }
 
     dailyGoalinput.addEventListener("change", (event) => {
         console.log(dailyGoalinput.value)
@@ -28,17 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     addwaterbutton.addEventListener("click", (event) => {
-        console.log(mon)
-        mon = mon +0.1
+        console.log(pastdaysElement.textContent)
+        pastdaysElement.textContent = Number(pastdaysElement.textContent) +0.1
         updateDisplay()
     });
 
     const updateDisplay = () => {
         goalElement.textContent = dailyGoal;
         consumedElement.textContent = consumed;
-        pastdaysElement.textContent = mon;
+        /*pastdaysElement.textContent = mon;*/
     };
 
+    
     const translations = {
         en: {
             title: 'DrinkDiary.com',
