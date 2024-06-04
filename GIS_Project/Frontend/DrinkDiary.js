@@ -1,8 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded'), () => {
     
+    const form = document.getElementById('drink-form');
     const consumedElement = document.getElementById('consumed');
     const goalElement = document.getElementById('goal');
     const dailyGoalinput = document.getElementById('dailyGoal');
+    const ctx = document.getElementById('consumption-chart').getContext('2d');
+    const calendarBody = document.querySelector('#calendar tbody');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const languageSelect = document.getElementById('language-select');
     const addwaterbutton = document.getElementById('addwaterbutton');
@@ -17,11 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let consumed = 0;
     let value = Number(localStorage.getItem('value'))
     pastdaysElement.textContent = value;
-    resetbutton.addEventListener('click', () => {
+    resetbutton.addEventListener('click', (event) => {
         setValue(0);
-      });
-    addwaterbutton.addEventListener('click', () => {
-        setValue(value + 0.1);
     });
 
     function setValue(x) {
@@ -51,9 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
           break;
         case 6:
           day = "Saturday";
-      }
-
-    
+    }}
 
     dailyGoalinput.addEventListener('change', () => {
         console.log(dailyGoalinput.value)
@@ -61,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDisplay()
     });
 
-    addwaterbutton.addEventListener('click', () => {
+    addwaterbutton.addEventListener("click", (event) => {
         console.log(consumed)
         consumed = consumed +0.1
         updateDisplay()
     });
 
-    addwaterbutton.addEventListener("click", () => {
+    addwaterbutton.addEventListener("click", (event) => {
         console.log(pastdaysElement.textContent)
         pastdaysElement.textContent = Number(pastdaysElement.textContent) +0.1
         updateDisplay()
@@ -193,4 +191,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.languageSelect('language-select');
     });
 
-}})
+}
