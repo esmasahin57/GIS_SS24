@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded'), () => {
     let value = Number(localStorage.getItem('value'))
     pastdaysElement.textContent = value;
     addwaterbutton.textContent = value;
-    consumed.textContent = value;
+    consumedElement.textContent = value;
     resetbutton.addEventListener('click', (event) => {
         setValue(0);
     });
