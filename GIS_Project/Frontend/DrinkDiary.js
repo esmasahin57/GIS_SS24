@@ -1,44 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    const form = document.getElementById('drink-form');
     const consumedElement = document.getElementById('consumed');
     const goalElement = document.getElementById('goal');
     const dailyGoalinput = document.getElementById('dailyGoal');
-    const ctx = document.getElementById('consumption-chart').getContext('2d');
-    const calendarBody = document.querySelector('#calendar tbody');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const languageSelect = document.getElementById('language-select');
-    const addwaterbutton = document.getElementById('addwaterbutton')
-    const pastdaysElement = document.getElementById('mon');
+    const addwaterbutton = document.getElementById('addwaterbutton');
+    const resetbutton = document.getElementById('resetbutton');
+    const pastdaysElement = document.getElementById('day');
+
+    resetbutton.addEventListener('click', () => {
+        setValue(0);
+    })
 
     let dailyGoal = 0;
     let consumed = 0;
-    let consumptionData = [];
     let value = Number(localStorage.getItem('value'))
-    mon.textContent = value;
+    pastdaysElement.textContent = value;
+    resetbutton.addEventListener('click', () => {
+        setValue(0);
+      });
     addwaterbutton.addEventListener('click', () => {
         setValue(value + 0.1);
     });
 
     function setValue(x) {
         value = x;
-        mon.textContent = value;
+        day.textContent = value;
         localStorage.setItem('value', value);
       }
 
-    dailyGoalinput.addEventListener("change", (event) => {
+    switch (new Date().getDay()) {
+        case 0:
+          day = "Sunday";
+          break;
+        case 1:
+          day = "Monday";
+          break;
+        case 2:
+           day = "Tuesday";
+          break;
+        case 3:
+          day = "Wednesday";
+          break;
+        case 4:
+          day = "Thursday";
+          break;
+        case 5:
+          day = "Friday";
+          break;
+        case 6:
+          day = "Saturday";
+      }
+
+    
+
+    dailyGoalinput.addEventListener('change', () => {
         console.log(dailyGoalinput.value)
         dailyGoal = dailyGoalinput.value
         updateDisplay()
     });
 
-    addwaterbutton.addEventListener("click", (event) => {
+    addwaterbutton.addEventListener('click', () => {
         console.log(consumed)
         consumed = consumed +0.1
         updateDisplay()
     });
 
-    addwaterbutton.addEventListener("click", (event) => {
+    addwaterbutton.addEventListener("click", () => {
         console.log(pastdaysElement.textContent)
         pastdaysElement.textContent = Number(pastdaysElement.textContent) +0.1
         updateDisplay()
@@ -131,9 +160,30 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     languageSelect.addEventListener('change', (event) => {
-        const selectedLanguage = event.target.value;
-        applyTranslations(selectedLanguage);
+        const languageSelect = event.target.value;
+        applyTranslations(languageSelect);
     });
+
+    /*function applyTranslations() {
+                document.getElementById('title').textContent = translation.title;
+                document.getElementById('subtitle').textContent = translation.subtitle;
+                document.getElementById('darkModeButton').textContent = translation.darkModeButton;
+                document.getElementById('welcome').textContent = translation.welcome;
+                document.getElementById('instruction').textContent = translation.instruction;
+                document.getElementById('dailyGoalLabel').textContent = translation.dailyGoalLabel;
+                document.getElementById('addWaterButton').textContent = translation.addWaterButton;
+                document.getElementById('reset').textContent = translation.reset;
+                document.getElementById('dailyGoal').innerHTML = translation.dailyGoal;
+                document.getElementById('consumed').innerHTML = translation.consumed;
+                pastdaysElement.textContent = translation[new Date().toLocaleString('en-US', { weekday: 'short' }).toLowerCase()];
+            };*/
+
+    function applyTranslations(languageSelect) {
+        elementsToTranslate.forEach(element => {
+            const key = element.getAttribute('data-translate-key');
+            element.textContent = (document.getElementById('translation'))[language][key];
+        });
+
 
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
@@ -143,5 +193,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.languageSelect('language-select');
     });
 
-})
-   
+}})
