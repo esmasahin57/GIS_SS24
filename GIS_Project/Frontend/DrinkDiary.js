@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded'), () => {
     let consumed = 0;
     let value = Number(localStorage.getItem('value'))
     pastdaysElement.textContent = value;
+    addwaterbutton.textContent = value;
+    consumed.textContent = value;
     resetbutton.addEventListener('click', (event) => {
         setValue(0);
     });
@@ -162,7 +164,7 @@ document.addEventListener('DOMContentLoaded'), () => {
         applyTranslations(languageSelect);
     });
 
-    /*function applyTranslations() {
+    function applyTranslations() {
                 document.getElementById('title').textContent = translation.title;
                 document.getElementById('subtitle').textContent = translation.subtitle;
                 document.getElementById('darkModeButton').textContent = translation.darkModeButton;
@@ -174,7 +176,7 @@ document.addEventListener('DOMContentLoaded'), () => {
                 document.getElementById('dailyGoal').innerHTML = translation.dailyGoal;
                 document.getElementById('consumed').innerHTML = translation.consumed;
                 pastdaysElement.textContent = translation[new Date().toLocaleString('en-US', { weekday: 'short' }).toLowerCase()];
-            };*/
+            };
 
     function applyTranslations(languageSelect) {
         elementsToTranslate.forEach(element => {
@@ -184,7 +186,7 @@ document.addEventListener('DOMContentLoaded'), () => {
 
 
     darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        document.body.classList.toggle('dark-mode-toggle');
     });
 
     languageSelect.addEventListener('select', () => {

@@ -44,7 +44,7 @@ body {
     padding: 0;
 }
 
-.dark-mode {
+.dark-mode-toggle {
     background-color: #121212;
     color: #ffffff;
     --header-color: rgb(60, 60, 60);
