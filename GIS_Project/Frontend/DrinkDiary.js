@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const dailyGoalInput = document.getElementById('dailyGoal');
     const goalSpan = document.getElementById('goal');
     const consumedSpan = document.getElementById('consumed');
+    const successModal = document.getElementById('success-modal');
+    const successMessage = document.getElementById('success-message');
+    const closeBtn = document.querySelector('.close-btn');
 
     let dailyGoal = 0;
     let consumed = 0;
@@ -18,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Language Translation
     languageSelect.addEventListener('change', (event) => {
         const selectedLanguage = event.target.value;
-        // Implement translation logic here
         translatePage(selectedLanguage);
     });
 
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addWaterButton.addEventListener('click', () => {
         consumed += 0.1;
         consumedSpan.textContent = consumed.toFixed(1);
+        checkGoalAchieved();
         updateChart();
         updateTable();
         saveData();
@@ -35,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     resetButton.addEventListener('click', () => {
         consumed = 0;
         consumedSpan.textContent = consumed.toFixed(1);
-        // Reset calendar values here
         const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
         days.forEach(day => {
             document.getElementById(day).textContent = '0';
         });
+        successModal.style.display = 'none';
         saveData();
     });
 
@@ -47,7 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
     dailyGoalInput.addEventListener('input', (event) => {
         dailyGoal = parseFloat(event.target.value);
         goalSpan.textContent = dailyGoal.toFixed(1);
+        checkGoalAchieved();
         saveData();
+    });
+
+    // Close Modal
+    closeBtn.addEventListener('click', () => {
+        successModal.style.display = 'none';
+    });
+
+    // Close Modal if Click Outside
+    window.addEventListener('click', (event) => {
+        if (event.target === successModal) {
+            successModal.style.display = 'none';
+        }
     });
 
     // Initialize Chart.js
@@ -102,23 +118,21 @@ document.addEventListener('DOMContentLoaded', () => {
             case 6: // Saturday
                 document.getElementById('sat').textContent = consumed.toFixed(1);
                 break;
-            default:
-                break;
         }
     }
 
-    function translatePage(language) {
-        const elements = document.querySelectorAll('[data-translate-key]');
-        elements.forEach(element => {
-            const key = element.getAttribute('data-translate-key');
-            element.textContent = translations[language][key];
-        });
+    function checkGoalAchieved() {
+        if (consumed >= dailyGoal && dailyGoal > 0) {
+            successMessage.textContent = translations[languageSelect.value].successMessage;
+            successModal.style.display = 'block';
+        } else {
+            successModal.style.display = 'none';
+        }
     }
 
     function saveData() {
-        localStorage.setItem('dailyGoal', dailyGoal);
-        localStorage.setItem('consumed', consumed);
-
+        localStorage.setItem('dailyGoal', dailyGoal.toFixed(1));
+        localStorage.setItem('consumed', consumed.toFixed(1));
         const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
         days.forEach(day => {
             localStorage.setItem(day, document.getElementById(day).textContent);
@@ -145,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         updateChart();
+        checkGoalAchieved();
     }
 
     const translations = {
@@ -165,7 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
             thu: 'Thursday',
             fri: 'Friday',
             sat: 'Saturday',
-            sun: 'Sunday'
+            sun: 'Sunday',
+            successMessage: 'You did it!'
         },
         de: {
             title: 'DrinkDiary.de',
@@ -184,7 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
             thu: 'Donnerstag',
             fri: 'Freitag',
             sat: 'Samstag',
-            sun: 'Sonntag'
+            sun: 'Sonntag',
+            successMessage: 'Du hast es geschafft!'
         },
         es: {
             title: 'DrinkDiary.com',
@@ -203,7 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
             thu: 'Jueves',
             fri: 'Viernes',
             sat: 'Sábado',
-            sun: 'Domingo'
+            sun: 'Domingo',
+            successMessage: '¡Lo lograste!'
         },
         fr: {
             title: 'DrinkDiary.com',
@@ -222,11 +240,25 @@ document.addEventListener('DOMContentLoaded', () => {
             thu: 'Jeudi',
             fri: 'Vendredi',
             sat: 'Samedi',
-            sun: 'Dimanche'
+            sun: 'Dimanche',
+            successMessage: 'Vous l\'avez fait!'
         }
     };
+
+    function translatePage(language) {
+        document.querySelectorAll('[data-translate-key]').forEach(element => {
+            const key = element.getAttribute('data-translate-key');
+            element.textContent = translations[language][key];
+        });
+
+        goalSpan.textContent = dailyGoal.toFixed(1);
+        consumedSpan.textContent = consumed.toFixed(1);
+        checkGoalAchieved();
+    }
 
     // Load data from local storage on page load
     loadData();
 });
 
+
+//ChatGPT verwendet
