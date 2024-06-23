@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Add Water Button
-    addWaterButton.addEventListener('click', () => {
+    addWaterButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Verhindert das Standardverhalten des Buttons
         consumed += 0.1;
         consumedSpan.textContent = consumed.toFixed(1);
         checkGoalAchieved();
@@ -35,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Reset Button
-    resetButton.addEventListener('click', () => {
+    resetButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Verhindert das Standardverhalten des Buttons
         consumed = 0;
         consumedSpan.textContent = consumed.toFixed(1);
         const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -139,7 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function loadData() {
+    async function loadData() {
+        // Lade Daten vom Server
+        const response = await fetch("http://localhost:5000/entries");
+        const data = await response.json();
+        console.log(data);
+
+        // Lade Daten aus localStorage
         if (localStorage.getItem('dailyGoal')) {
             dailyGoal = parseFloat(localStorage.getItem('dailyGoal'));
             dailyGoalInput.value = dailyGoal;
@@ -259,6 +267,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load data from local storage on page load
     loadData();
 });
+
+
 
 
 //ChatGPT verwendet
