@@ -25,19 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Add Water Button
-    addWaterButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Verhindert das Standardverhalten des Buttons
+    addWaterButton.addEventListener('click', () => {
         consumed += 0.1;
         consumedSpan.textContent = consumed.toFixed(1);
         checkGoalAchieved();
         updateChart();
         updateTable();
-        saveData();
+        saveDataToDatabase(); // Hier füge ich die Funktion hinzu, um die Daten in der Datenbank zu speichern
     });
 
     // Reset Button
-    resetButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Verhindert das Standardverhalten des Buttons
+    resetButton.addEventListener('click', () => {
         consumed = 0;
         consumedSpan.textContent = consumed.toFixed(1);
         const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -45,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(day).textContent = '0';
         });
         successModal.style.display = 'none';
-        saveData();
+        saveDataToDatabase(); // Hier füge ich die Funktion hinzu, um die Daten in der Datenbank zu speichern
     });
 
     // Daily Goal Input
@@ -53,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dailyGoal = parseFloat(event.target.value);
         goalSpan.textContent = dailyGoal.toFixed(1);
         checkGoalAchieved();
-        saveData();
+        saveDataToDatabase(); // Hier füge ich die Funktion hinzu, um die Daten in der Datenbank zu speichern
     });
 
     // Close Modal
@@ -132,43 +130,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function saveData() {
-        localStorage.setItem('dailyGoal', dailyGoal.toFixed(1));
-        localStorage.setItem('consumed', consumed.toFixed(1));
-        const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-        days.forEach(day => {
-            localStorage.setItem(day, document.getElementById(day).textContent);
-        });
-    }
-
-    async function loadData() {
-        // Lade Daten vom Server
-        const response = await fetch("http://localhost:5000/entries");
-        const data = await response.json();
-        console.log(data);
-
-        // Lade Daten aus localStorage
-        if (localStorage.getItem('dailyGoal')) {
-            dailyGoal = parseFloat(localStorage.getItem('dailyGoal'));
-            dailyGoalInput.value = dailyGoal;
-            goalSpan.textContent = dailyGoal.toFixed(1);
-        }
-
-        if (localStorage.getItem('consumed')) {
-            consumed = parseFloat(localStorage.getItem('consumed'));
-            consumedSpan.textContent = consumed.toFixed(1);
-        }
-
-        const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-        days.forEach(day => {
-            if (localStorage.getItem(day)) {
-                document.getElementById(day).textContent = localStorage.getItem(day);
+    async function saveDataToDatabase() {
+        const data = {
+            date: new Date().toISOString().split('T')[0],
+            dailyGoal: dailyGoal,
+            consumed: consumed
+        };
+    
+        try {
+            const response = await fetch('http://localhost:5000/entries', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to save data');
             }
-        });
-
-        updateChart();
-        checkGoalAchieved();
+        } catch (error) {
+            console.error(error);
+        }
     }
+    
 
     const translations = {
         en: {
@@ -264,11 +249,30 @@ document.addEventListener('DOMContentLoaded', () => {
         checkGoalAchieved();
     }
 
-    // Load data from local storage on page load
+    // Load data from the server on page load
+    async function loadData() {
+        try {
+            const response = await fetch("http://localhost:5000/entries");
+            const data = await response.json();
+    
+            if (data && data.data.length > 0) {
+                const latestEntry = data.data[data.data.length - 1];
+                dailyGoal = latestEntry.dailyGoal;
+                consumed = latestEntry.consumed;
+                dailyGoalInput.value = dailyGoal;
+                goalSpan.textContent = dailyGoal.toFixed(1);
+                consumedSpan.textContent = consumed.toFixed(1);
+    
+                updateChart();
+                updateTable();
+            }
+        } catch (error) {
+            console.error('Failed to load data', error);
+        }
+    }
+
+    // Initial load of translations and data based on language select
+    translatePage(languageSelect.value);
     loadData();
 });
 
-
-
-
-//ChatGPT verwendet

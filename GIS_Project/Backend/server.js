@@ -2,15 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-var cors = require('cors');
-
+const cors = require('cors');
 
 const app = express();
-const port = 5000;
-const hostname = 'localhost';
-app.use(cors());
+const port = process.env.PORT || 5000;
 
-// Middleware
+app.use(cors());
 app.use(bodyParser.json());
 
 // SQLite3 Database
@@ -47,12 +44,9 @@ app.get('/entries', (req, res) => {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({ data: rows });
+    res.json(rows);
   });
 });
-
-
-
 
 // POST /entries
 app.post('/entries', (req, res) => {
@@ -91,7 +85,17 @@ app.delete('/entries/:id', (req, res) => {
   });
 });
 
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 // Start server
-app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
