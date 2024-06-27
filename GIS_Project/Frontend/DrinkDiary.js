@@ -275,3 +275,4 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
+//ChatGPT verwendet
