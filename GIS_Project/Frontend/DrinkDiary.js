@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function translatePage(language) {
         document.querySelectorAll('[data-translate-key]').forEach(element => {
             const key = element.getAttribute('data-translate-key');
-            element.textContent = translations[language][key];
         });
 
         goalSpan.textContent = dailyGoal.toFixed(1);
@@ -255,8 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch("http://localhost:5000/entries");
             const data = await response.json();
     
-            if (data && data.data.length > 0) {
-                const latestEntry = data.data[data.data.length - 1];
+            if (data && data.length > 0) {
+                const latestEntry = data[data.length - 1];
                 dailyGoal = latestEntry.dailyGoal;
                 consumed = latestEntry.consumed;
                 dailyGoalInput.value = dailyGoal;
